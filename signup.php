@@ -286,11 +286,20 @@ display:none;
 
 .register {
 
-background-image: linear-gradient(#c1c1c4, #b0bddf);
+    background-image: linear-gradient(#c1c1c4, #aabff5);
     border-radius:5px;
     margin-bottom:100px
     padding:10px;
+    width:50% !important;
+}
 
+
+@media only screen and (max-width: 700px) {
+  .register {
+
+
+    width:70% !important;
+}
 }
 
 
@@ -377,7 +386,7 @@ font-size:20px;
 </div>
   <div class="form-group">
     <label for="passwordin">Password</label>
-    <input type="password" name="password" class="form-control"  placeholder="Must be at least 8 characters long" value="<?php if(isset($_SESSION['password'])) { echo $_SESSION['password'];}?>">
+    <input type="password" name="password" class="form-control"  placeholder="At least 8 characters long" value="<?php if(isset($_SESSION['password'])) { echo $_SESSION['password'];}?>">
   </div>
 <div class="form-group">
     <label for="passwordin">Confirm password</label>

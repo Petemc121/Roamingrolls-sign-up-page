@@ -104,7 +104,6 @@ if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {
   } else {
 
   my_theme_create_new_user();
-  
   }
 }
 
@@ -233,7 +232,8 @@ if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {
 
     body {
 
-        margin:120 0 0 0;
+        margin-top:120px;
+        overflow-x:hidden;
     }
 
     #alertpasswordx {
@@ -286,7 +286,7 @@ display:none;
 
 .register {
 
-    background-color:#6d878f;
+background-image: linear-gradient(#c1c1c4, #b0bddf);
     border-radius:5px;
     margin-bottom:100px
     padding:10px;
@@ -297,7 +297,7 @@ display:none;
 
 label {
 
-    color:white;
+    color:#081640;
 }
 
 #sub {
@@ -318,6 +318,13 @@ font-size:20px;
 #signcon {
 
   margin-bottom:100px;
+}
+
+.grecaptcha-badge {
+  position:absolute !important;
+  bottom:100px;
+
+  
 }
 
 
@@ -384,7 +391,15 @@ font-size:20px;
     <label class="form-check-label" for="exampleCheck1">Keep me logged in</label>
   </div>
   <p></p>
-<button id="sub" type="submit" name="submit" class="btn btn-primary">Submit</button>
+<button id="sub" 
+        type="submit" 
+        name="submit" 
+        class="g-recaptcha btn btn-primary"
+        data-sitekey="6LcRipsaAAAAAAfMVFvrYkxmnV5bJsNZPsjNEG_M" 
+        data-callback='onSubmit'
+        data-action='submit' >
+  Submit
+</button>
 <div></div>
 </form>
 

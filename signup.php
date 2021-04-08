@@ -12,7 +12,7 @@ function my_theme_create_new_user(){
    {
     $username = sanitize_text_field($_POST['username']);
     $email = sanitize_text_field($_POST['email']);
-    $password = $_POST['password'];
+    $password = sanitize_text_field($_POST['password']);
     $user_id = username_exists( $username );
     
 
@@ -66,6 +66,16 @@ function my_theme_create_new_user(){
     
   
         $user_id = wp_create_user( $username, $password, $email );
+        $new_post = array(
+              'post_title' =>$username,
+              'post_author' =>$user_id,
+              'post_type' => 'Profiles',
+              'post_name' => $username,
+                    
+    );
+
+    $pid = wp_insert_post($new_post);
+
         echo '<style type="text/css">
               #success {
                   display: block !important;

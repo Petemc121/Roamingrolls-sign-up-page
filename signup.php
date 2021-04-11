@@ -118,7 +118,8 @@ if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {
 }
 
 
-
+ $siteKey = "6LeIgKUaAAAAADnCskrtL8C-Bbo17h1z0OhPvXTP";
+ $secretKey = "6LeIgKUaAAAAAD_NLyIM17NQggDrVarf02QVbPtz";
 
 
 // if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {
@@ -384,7 +385,7 @@ font-size:20px;
     
    
     <h1 class = "titles">Sign up</h1>
-    <form action='' method = "post">
+    <form id="signUp" action='?' method = "POST">
     <?php wp_nonce_field( 'create_user_form_submit', 'djie3gehj3edub3u' ); ?>
     <div class="form-group">
     <label for="Username">Username</label>
@@ -410,16 +411,14 @@ font-size:20px;
     <label class="form-check-label" for="exampleCheck1">Keep me logged in</label>
   </div>
   <p></p>
+  <input type="text" name="g-recaptcha-response" id="g-recaptcha-response">
 <button id="sub" 
-        type="submit" 
         name="submit" 
-        class="g-recaptcha btn btn-primary"
-        data-sitekey="6LcRipsaAAAAAAfMVFvrYkxmnV5bJsNZPsjNEG_M" 
-        data-callback='onSubmit'
-        data-action='submit' >
+       type="submit"
+        >
   Submit
 </button>
-<div></div>
+
 </form>
 
 </div>
@@ -427,18 +426,38 @@ font-size:20px;
 
 <script>
 
+function error() {
+  alert('error')
+}
+
+const sub = document.getElementById("sub")
   
-document.getElementById("sub").onmouseover = function() {
+sub.onmouseover = function() {
 
-document.getElementById("sub").style.backgroundImage = "linear-gradient(#AD0E2C, black)";
+sub.style.backgroundImage = "linear-gradient(#AD0E2C, black)";
+
+};
+
+sub.onmouseout = function() {
+
+sub.style.backgroundImage = "linear-gradient(#0A0A23, #071A4B)";
 
 };
 
-document.getElementById("sub").onmouseout = function() {
 
-document.getElementById("sub").style.backgroundImage = "linear-gradient(#0A0A23, #071A4B)";
+sub.addEventListener("click", function() {
+        grecaptcha.ready(function() {
+          grecaptcha.execute("<?php echo $siteKey ?>", {action: 'submit'}).then(function(token) {
+//console.log(token)    
+const input = document.getElementById('g-recaptcha-response');
 
-};
+input.value = token;
+ });
+        });
+      });
+      
+
+
 
 </script>
 

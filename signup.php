@@ -6,10 +6,30 @@ get_header();
 
 global $wpdb;
 
+
+ $siteKey = "6LeIgKUaAAAAADnCskrtL8C-Bbo17h1z0OhPvXTP";
+ $secretKey = "6LeIgKUaAAAAAD_NLyIM17NQggDrVarf02QVbPtz";
+
+ function getCaptcha($secretKey) {
+  $response = file_get_contents("https://www.google.com/recaptcha/apisiteverify?secret=".$secretKey."&response=($secretKey)");
+  $return = json_decode($response);
+  return $return;
+}
+
 function my_theme_create_new_user(){
+
+  
   
   if (isset($_POST['djie3gehj3edub3u']) || wp_verify_nonce($_POST['djie3gehj3edub3u'], 'create_user_form_submit' ))
    {
+
+$return = getCaptcha($_POST['g-recaptcha-response']);
+$returnObj = var_dump($return);
+
+echo "<script>console.log('".$returnObj."')</script>";
+
+
+
     $username = sanitize_text_field($_POST['username']);
     $email = sanitize_text_field($_POST['email']);
     $password = sanitize_text_field($_POST['password']);
@@ -118,8 +138,6 @@ if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {
 }
 
 
- $siteKey = "6LeIgKUaAAAAADnCskrtL8C-Bbo17h1z0OhPvXTP";
- $secretKey = "6LeIgKUaAAAAAD_NLyIM17NQggDrVarf02QVbPtz";
 
 
 // if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {

@@ -7,11 +7,25 @@ get_header();
 global $wpdb;
 
 
- $siteKey = "6LeIgKUaAAAAADnCskrtL8C-Bbo17h1z0OhPvXTP";
- $secretKey = "6LeIgKUaAAAAAD_NLyIM17NQggDrVarf02QVbPtz";
+define('SITE_KEY', "6LeIgKUaAAAAADnCskrtL8C-Bbo17h1z0OhPvXTP");
+define('SECRET_KEY',"6LeIgKUaAAAAAD_NLyIM17NQggDrVarf02QVbPtz");
 
  function getCaptcha($secretKey) {
-  $response = file_get_contents("https://www.google.com/recaptcha/apisiteverify?secret=".$secretKey."&response=($secretKey)");
+  
+  $ch = curl_init();
+curl_setopt_array($ch, [
+    CURLOPT_URL => 'https://www.google.com/recaptcha/api/siteverify',
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => [
+        'secret' => SECRET_KEY,
+        'response' => $secretKey,
+        'remoteip' => $_SERVER['REMOTE_ADDR']
+    ],
+    CURLOPT_RETURNTRANSFER => true
+]);
+
+$response = curl_exec($ch);
+curl_close($ch);
   $return = json_decode($response);
   return $return;
 }
@@ -23,10 +37,8 @@ function my_theme_create_new_user(){
   if (isset($_POST['djie3gehj3edub3u']) || wp_verify_nonce($_POST['djie3gehj3edub3u'], 'create_user_form_submit' ))
    {
 
-$return = getCaptcha($_POST['g-recaptcha-response']);
-$returnObj = var_dump($return);
 
-echo "<script>console.log('".$returnObj."')</script>";
+
 
 
 
@@ -83,6 +95,12 @@ echo "<script>console.log('".$returnObj."')</script>";
            </style>';
          
             } else {
+
+              $return = getCaptcha($_POST['g-recaptcha-response']); 
+
+              if($return->success == true && $return->score >0.5) 
+              {
+              
     
   
         $user_id = wp_create_user( $username, $password, $email );
@@ -94,14 +112,16 @@ echo "<script>console.log('".$returnObj."')</script>";
                     
     );
 
-    $pid = wp_insert_post($new_post);
+    // $pid = wp_insert_post($new_post);
 
         echo '<style type="text/css">
               #success {
                   display: block !important;
               }
               </style>';
-              
+            }  else {
+              echo "<script>alert('Your session timed out')</script>";
+            }       
   
         }
   }
@@ -136,6 +156,8 @@ if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {
   my_theme_create_new_user();
   }
 }
+
+
 
 
 
@@ -369,6 +391,7 @@ font-size:20px;
 
 </style>
    
+ <script src='https://www.google.com/recaptcha/api.js?render=<?php echo SITE_KEY; ?>'></script>
   </head>
 
   <body>
@@ -430,12 +453,12 @@ font-size:20px;
   </div>
   <p></p>
   <input type="text" name="g-recaptcha-response" id="g-recaptcha-response">
-<button id="sub" 
+<input id="sub" 
         name="submit" 
-       type="submit"
+       type="submit"      
         >
-  Submit
-</button>
+
+</input>
 
 </form>
 
@@ -463,23 +486,21 @@ sub.style.backgroundImage = "linear-gradient(#0A0A23, #071A4B)";
 };
 
 
-sub.addEventListener("click", function() {
+
         grecaptcha.ready(function() {
-          grecaptcha.execute("<?php echo $siteKey ?>", {action: 'submit'}).then(function(token) {
-//console.log(token)    
+          grecaptcha.execute("<?php echo SITE_KEY ?>", {action: 'submit'}).then(function(token) {
+console.log(token)    
 const input = document.getElementById('g-recaptcha-response');
 
 input.value = token;
  });
         });
-      });
-      
+    
+
 
 
 
 </script>
-
-
 
 </body>
 
@@ -492,3 +513,5 @@ get_footer();
 ?>
 
 </div>
+
+

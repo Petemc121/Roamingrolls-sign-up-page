@@ -119,6 +119,12 @@ function my_theme_create_new_user(){
                   display: block !important;
               }
               </style>';
+
+               echo '<style type="text/css">
+              #fullArrow {
+                  display: block !important;
+              }
+              </style>';
             }  else {
               echo "<script>alert('Your session timed out')</script>";
             }       
@@ -325,7 +331,35 @@ display:none;
 }
 
 #success {
+  display:none;
 
+
+}
+
+#arrowTop {
+  transition: all 0.5s;
+  width: 0; 
+  height: 0; 
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #7ace86;
+  position:relative;
+  
+}
+#arrowBottom {
+  transition: all 0.5s;
+  width:12px;
+  height:20px;
+  background-color:#7ace86;
+  position:relative;
+  left:9px;
+}
+
+#fullArrow {
+  position:absolute;
+  top:85px;
+  right:70px;
+  transition:all 0.5s;
   display:none;
 }
 
@@ -344,6 +378,17 @@ display:none;
     width:50% !important;
 }
 
+.recap {
+  margin-top:-80px;
+  margin-bottom:50px;
+  line-height:50px;
+}
+
+#recapImg {
+  width:50px;
+  height:50px;
+}
+
 
 @media only screen and (max-width: 700px) {
   .register {
@@ -355,7 +400,7 @@ display:none;
 
 
 
-label {
+.signLabel {
 
     color:#081640;
 }
@@ -381,8 +426,8 @@ font-size:20px;
 }
 
 .grecaptcha-badge {
-  position:absolute !important;
-  bottom:100px;
+ visibility: collapse !important;  
+
 
   
 }
@@ -418,9 +463,15 @@ font-size:20px;
           That email has already been taken. 
         </div>
         <div id="success" class="alert alert-success" role="alert">
-          Congratulations! You've successfully registered with us!       </div>
+          Congratulations! You've successfully registered with us! You can now log in.       </div>
 
 </div>
+
+<div id="fullArrow">
+<div id="arrowTop"></div>
+<div id ="arrowBottom"></div>
+</div>
+
 
     <div id="signcon" class="container register">
     
@@ -429,19 +480,19 @@ font-size:20px;
     <form id="signUp" action='?' method = "POST">
     <?php wp_nonce_field( 'create_user_form_submit', 'djie3gehj3edub3u' ); ?>
     <div class="form-group">
-    <label for="Username">Username</label>
+    <label class = "signLabel" for="Username">Username</label>
     <input type="username" name="username" class="form-control" id="userin" placeholder="Make sure it's unique!" value="<?php if(isset($_SESSION['username'])) { echo $_SESSION['username'];}?>">
 </div>
   <div class="form-group">
-    <label for="emailin">Email address</label>
+    <label class = "signLabel" for="emailin">Email address</label>
     <input type="email" name="email" class="form-control" id="emailin" aria-describedby="emailHelp" placeholder="E.g: name@example.com" value="<?php if(isset($_SESSION['email'])) { echo $_SESSION['email'];}?>">
 </div>
   <div class="form-group">
-    <label for="passwordin">Password</label>
+    <label class = "signLabel" for="passwordin">Password</label>
     <input type="password" name="password" class="form-control"  placeholder="At least 8 characters long" value="<?php if(isset($_SESSION['password'])) { echo $_SESSION['password'];}?>">
   </div>
 <div class="form-group">
-    <label for="passwordin">Confirm password</label>
+    <label class = "signLabel" for="passwordin">Confirm password</label>
     <input type="password" name="password2" class="form-control" placeholder="Type your password again."value="<?php if(isset($_SESSION['password2'])) { echo $_SESSION['password2'];}?>">
   </div>
   <div id="alertpasswordsame" class="alert alert-danger" role="alert">
@@ -462,10 +513,21 @@ font-size:20px;
 
 </form>
 
+
+
+</div>
+
+<div class="recap center">
+<div id = "recaptchaMessage">Protected by google reCAPTCHA V3</div>
+<img id = "recapImg" src="https://www.roamingrolls.com/wp-content/uploads/2021/04/download.png">
 </div>
 
 
+
 <script>
+
+  const arrow = document.getElementById('fullArrow');
+
 
 function error() {
   alert('error')
@@ -484,6 +546,16 @@ sub.onmouseout = function() {
 sub.style.backgroundImage = "linear-gradient(#0A0A23, #071A4B)";
 
 };
+
+function arrowInit() {
+
+
+   setInterval(function() {arrow.style.top = "85px"}, 300);
+   setInterval(function() {arrow.style.top = "80px"}, 600);
+}
+
+arrowInit();
+
 
 
 

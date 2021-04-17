@@ -1,16 +1,95 @@
+<?php
+
+global $wpdb;
+global $current_user;
+wp_get_current_user();
+$post_id = get_the_id();
+
+$kv_author =get_the_author_meta('ID'); 	
+
+ if($current_user->ID != $kv_author){
+    echo "<style>#coverPhotoUp{display:none !important;}</style>";
+    echo "<style>#profilePicUp{display:none !important;}</style>";
+    
+ } 
+
+ 
+function uploadInstructFile($file, $meta_key, $fileIn) {
+
+  $post_id = get_the_ID();
+  $uploadsDir = wp_upload_dir();
+  $allowedFileType = array('jpg','png','jpeg');
+  $filename = $file['name'];
+  $uploadOk = 1;
+  $imageFileType = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+
+
+      $check = getimagesize($file["tmp_name"]);
+      if($check !== false) {
+        $uploadOk = 1;
+      } else {
+        echo "<script>alert('invalid file!')</script>";
+        $uploadOk = 0;
+      }
+  
+    
+
+    if(in_array($imageFileType, $allowedFileType)) {
+      $uploadOk = 1;
+    } else {
+      echo "<script>alert('incorrect file type!')</script>";
+      $uploadOk = 0;
+    }
+
+    if ($file["size"] > 600000) {
+      echo "<script>alert('Too large')</script>";
+      $uploadOk = 0;
+    }
+
+    if ($uploadOk == 0) {
+      echo "<script>alert('Your file was not uploaded!')</script>";
+      return false;
+    } else {
+
+
+      $attach_id = insert_attachment($fileIn, $post_id);
+      update_post_meta($post_id, $meta_key, $attach_id);
+      
+    }
+  
+  }
+
+  if (isset($_POST['sdfhjrcjkllcrknjcrk'])) {
+  
+  if(wp_verify_nonce($_POST['sdfhjrcjkllcrknjcrk'], 'cover_form' )) {
+  
+if (!empty($_FILES['cover_photo']['name'])) {
+
+  $coverImg = $_FILES['cover_photo'];
+
+  uploadInstructFile($img1, 'instructorImg0', 'imageUpload0');
+
+}
+
+?>
 
 <body>
 <div class="mySlideD">
-
-    <img onclick="showslide()" id="displayImg" src="https://www.roamingrolls.com/wp-content/uploads/2020/08/Untitled-design-20.png">
-    <input id="DisUpload" onchange="fasterPreview(this, '#displayImg')" type="file" 
-    name="profile_photo" placeholder="Photo" required="" capture style="display:none;">
+<form id="coverForm" enctype="multipart/form-data" method="post">
+<?php wp_nonce_field( 'cover_form', 'sdfhjrcjkllcrknjcrk' ); ?>
+    <img  id="coverPhoto" src="https://www.roamingrolls.com/wp-content/uploads/2020/08/Untitled-design-20.png">
+    <input id="DisUpload" onchange="fasterPreview(this, '#coverPhoto')" type="file" 
+    name="cover_photo" placeholder="Photo" required="" capture style="display:none;">
 
     
   </div>
-
-  <button onclick="$('#DisUpload').click()" id ="DPup"><i class="fas fa-file-upload"></i>
+   <button id="savePics" class="plusPic" type="submit">Save</button>
+</form>
+<button id="cancelPics" class="plusPic" >Cancel</button>
+  <button onclick="$('#DisUpload').click()" id ="coverPhotoUp"><i class="fas fa-file-upload"></i>
     </button>
+
 
 <div id="profile-pic">
 
@@ -21,7 +100,7 @@
     <input id="imageUpload1" onchange="fasterPreview(this, '#ProfileImg')" type="file" 
     name="profile_photo" placeholder="Photo" required="" capture>
 
-      <button onclick="$('#imageUpload1').click()" id ="PPup"><i class="fas fa-file-upload"></i>
+      <button onclick="$('#imageUpload1').click()" id ="profilePicup"><i class="fas fa-file-upload"></i>
     </button>
 
 </div>
@@ -63,19 +142,29 @@
 
 <script>
 
-    var slideContain = 
+    // var slideContain = 
 
-    function showslide() {
-    slideContain.style.display = "block";
-    displayImg.style.display ="none";
-    }
+    // function showslide() {
+    // slideContain.style.display = "block";
+    // displayImg.style.display ="none";
+    // }
 
     
   function fasterPreview( uploader, image ) {
     if ( uploader.files && uploader.files[0] ){
           $(image).attr('src', 
              window.URL.createObjectURL(uploader.files[0]) );
+
+
     }
+
+     var save = document.getElementById("savePics");
+        var cancel = document.getElementById("cancelPics");
+        var upload = document.getElementById("coverPhotoUp");
+
+        save.style.display = "block";
+        cancel.style.display = "block";
+        upload.style.display = "none";
   }
 
 

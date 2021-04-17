@@ -74,6 +74,20 @@ if (!empty($_FILES['cover_photo']['name'])) {
   }
 }
 
+  if (isset($_POST['sdfhjrcjkllcrknjcrk'])) {
+  
+  if(wp_verify_nonce($_POST['sdfhjrcjkllcrknjcrk'], 'cover_form' )) {
+  
+if (!empty($_FILES['cover_photo']['name'])) {
+
+  $coverImg = $_FILES['cover_photo'];
+
+  uploadInstructFile($coverImg, 'cover_photo', 'cover_photo');
+
+}
+  }
+}
+
 ?>
 
 <body>
@@ -95,29 +109,34 @@ if (!empty($_FILES['cover_photo']['name'])) {
     }
 
     ?>">
-    <input id="DisUpload" onchange="fasterPreview(this, '#coverPhoto')" type="file" 
+    <input id="DisUpload" onchange="fasterPreview(this, '#coverPhoto', 'cancelCover', 'saveCover', 'coverPhotoUp')" type="file" 
     name="cover_photo" placeholder="Photo" required="" capture style="display:none;">
 
     
   </div>
-   <button id="savePics" class="plusPic" type="submit">Save</button>
+   <button id="saveCover" class="plusPic" type="submit">Save</button>
 </form>
-<button id="cancelPics" class="plusPic" >Cancel</button>
+<button id="cancelCover" class="plusPic" >Cancel</button>
   <button onclick="$('#DisUpload').click()" id ="coverPhotoUp"><i class="fas fa-file-upload"></i>
     </button>
 
 
 <div id="profile-pic">
+  <form id="coverForm" enctype="multipart/form-data" method="post">
+<?php wp_nonce_field( 'profile_img_form', 'svnlvnknvjklkjdbfjkd' ); ?>
 
     <img id = "ProfileImg" src="https://www.roamingrolls.com/wp-content/uploads/2020/11/avatar.gif">
 
   
 
-    <input id="imageUpload1" onchange="fasterPreview(this, '#ProfileImg')" type="file" 
+    <input id="imageUpload1" onchange="fasterPreview(this, '#ProfileImg','cancelProfilePic','saveProfilePic','profilePicUp')" type="file" 
     name="profile_photo" placeholder="Photo" required="" capture>
+   <button id="saveProfilePic" class="plusPic" type="submit">Save</button>
 
+  </form>
       <button onclick="$('#imageUpload1').click()" id ="profilePicup"><i class="fas fa-file-upload"></i>
     </button>
+    <button id="cancelProfilePic" class="plusPic" >Cancel</button>
 
 </div>
 
@@ -166,7 +185,7 @@ if (!empty($_FILES['cover_photo']['name'])) {
     // }
 
     
-  function fasterPreview( uploader, image ) {
+  function fasterPreview( uploader, image, cancelID, saveID, upID ) {
     if ( uploader.files && uploader.files[0] ){
           $(image).attr('src', 
              window.URL.createObjectURL(uploader.files[0]) );
@@ -174,9 +193,9 @@ if (!empty($_FILES['cover_photo']['name'])) {
 
     }
 
-     var save = document.getElementById("savePics");
-        var cancel = document.getElementById("cancelPics");
-        var upload = document.getElementById("coverPhotoUp");
+     var save = document.getElementById(saveID);
+        var cancel = document.getElementById(cancelID);
+        var upload = document.getElementById(upID);
 
         save.style.display = "block";
         cancel.style.display = "block";

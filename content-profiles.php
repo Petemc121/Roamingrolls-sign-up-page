@@ -3,7 +3,7 @@
 global $wpdb;
 global $current_user;
 wp_get_current_user();
-$post_id = get_the_id();
+
 
 $kv_author =get_the_author_meta('ID'); 	
 
@@ -16,7 +16,7 @@ $kv_author =get_the_author_meta('ID');
  
 function uploadInstructFile($file, $meta_key, $fileIn) {
 
-  $post_id = get_the_ID();
+$post_id = get_the_ID();
   $uploadsDir = wp_upload_dir();
   $allowedFileType = array('jpg','png','jpeg');
   $filename = $file['name'];
@@ -68,8 +68,10 @@ if (!empty($_FILES['cover_photo']['name'])) {
 
   $coverImg = $_FILES['cover_photo'];
 
-  uploadInstructFile($img1, 'instructorImg0', 'imageUpload0');
+  uploadInstructFile($coverImg, 'cover_photo', 'cover_photo');
 
+}
+  }
 }
 
 ?>
@@ -78,7 +80,21 @@ if (!empty($_FILES['cover_photo']['name'])) {
 <div class="mySlideD">
 <form id="coverForm" enctype="multipart/form-data" method="post">
 <?php wp_nonce_field( 'cover_form', 'sdfhjrcjkllcrknjcrk' ); ?>
-    <img  id="coverPhoto" src="https://www.roamingrolls.com/wp-content/uploads/2020/08/Untitled-design-20.png">
+    <img  id="coverPhoto" src="
+    <?php 
+    $post_id = get_the_ID();
+
+      $cover = get_post_meta($post_id, 'cover_photo', true );
+
+    if ($cover == "") {
+
+          echo "https://www.roamingrolls.com/wp-content/uploads/2020/08/Untitled-design-20.png";
+    } else {
+    $coverURL = wp_get_attachment_url($cover);
+      echo $coverURL;
+    }
+
+    ?>">
     <input id="DisUpload" onchange="fasterPreview(this, '#coverPhoto')" type="file" 
     name="cover_photo" placeholder="Photo" required="" capture style="display:none;">
 

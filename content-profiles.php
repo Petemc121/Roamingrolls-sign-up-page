@@ -101,12 +101,14 @@ if (isset($_POST['cskbhcsjlkjasdknhkvlknklj'])) {
           update_post_meta($post_id, 'profile_name', $profileName);
          }
 
-            if($_POST['profileBelt'] != "") {
+            if($_POST['profileBelt'] != "notSelected") {
 
               $profileBelt =  sanitize_text_field($_POST['profileBelt']);
 
                update_post_meta($post_id, 'profile_belt', $profileBelt);
             }
+
+        
 
 
   }
@@ -220,60 +222,78 @@ if (isset($_POST['cskbhcsjlkjasdknhkvlknklj'])) {
   <option value="purple">Purple</option>
   <option value="brown">Brown</option>
   <option value="black">Black</option>
-  <option value="coral">Coral</option>
-  <option value="red">Red</option>
 </select>
 </div>
 
-<div id="whitebeltIconCon" class="beltIcons center">
+<?php
+
+$post_id = get_the_ID();
+
+$belt = get_post_meta($post_id, 'profile_belt', true);
+
+if ($belt == "white") 
+{
+  echo '<div id="whitebeltIconCon" class="whitebelt beltIcons ">
 <div id="notchCon" >
 <div id="whiteBeltNotchBot" class="whitebelt"> </div>
 <div id="whiteBeltNotchTop" class="whitebelt"> </div>
 <!-- <div id="whiteBeltNotchVert"> </div> -->
   </div>
 <div id="whiteBeltLeft" class="whitebelt"> </div>
-<div id="whiteBeltRight" class="whitebelt"> <div class="beltBand"></div> </div>
+<div id="whiteBeltRight" class="whitebelt"> <div id="whiteBand" class="beltBand"></div> </div>
 <div id="whiteBelt" class="whitebelt"> </div>
 
-  </div>
-
-  <div id="bluebeltIconCon" class="beltIcons center">
+  </div>';
+} else 
+if ($belt == "blue") 
+{
+  echo ' <div id="bluebeltIconCon" class="bluebelt beltIcons ">
 <div id="notchCon" >
 <div id="whiteBeltNotchBot" class="bluebelt"> </div>
 <div id="whiteBeltNotchTop" class="bluebelt"> </div>
 <!-- <div id="whiteBeltNotchVert"> </div> -->
   </div>
 <div id="whiteBeltLeft" class="bluebelt"> </div>
-<div id="whiteBeltRight" class="bluebelt"> <div class="beltBand"></div> </div>
+<div id="whiteBeltRight" class="bluebelt"> 
+  <div id="blueBand" class="beltBand"></div> 
+</div>
 <div id="whiteBelt" class="bluebelt"> </div>
 
-  </div>
-
-  <div id="purplebeltIconCon" class="beltIcons center">
+  </div>';
+} else 
+if ($belt == 'purple') 
+{
+  echo '
+  <div id="purplebeltIconCon" class="purplebelt beltIcons">
 <div id="notchCon" >
 <div id="whiteBeltNotchBot" class="purplebelt"> </div>
 <div id="whiteBeltNotchTop" class="purplebelt"> </div>
 <!-- <div id="whiteBeltNotchVert"> </div> -->
   </div>
 <div id="whiteBeltLeft" class="purplebelt"> </div>
-<div id="whiteBeltRight" class="purplebelt"> <div class="beltBand"></div> </div>
+<div id="whiteBeltRight" class="purplebelt"> <div id="purpleBand" class="beltBand"></div> </div>
 <div id="whiteBelt" class="purplebelt"> </div>
 
   </div>
-
-  <div id="brownbeltIconCon" class="beltIcons center">
+';
+} else
+if ($belt == 'brown') 
+{
+ echo '
+ <div id="brownbeltIconCon" class="brownbelt beltIcons">
 <div id="notchCon" >
 <div id="whiteBeltNotchBot" class="brownbelt"> </div>
 <div id="whiteBeltNotchTop" class="brownbelt"> </div>
 <!-- <div id="whiteBeltNotchVert"> </div> -->
   </div>
 <div id="whiteBeltLeft" class="brownbelt"> </div>
-<div id="whiteBeltRight" class="brownbelt"> <div class="beltBand"></div> </div>
+<div id="whiteBeltRight" class="brownbelt"> <div id="brownBand" class="beltBand"></div> </div>
 <div id="whiteBelt" class="brownbelt"> </div>
-
-  </div>
-
-  <div id="blackbeltIconCon" class="beltIcons center">
+';
+} else 
+if ($belt == 'black') {
+  echo '
+   <div id="blackbeltIconCon" class="blackbelt beltIcons">
 <div id="notchCon" >
 <div id="whiteBeltNotchBot" class="blackbelt"> </div>
 <div id="whiteBeltNotchTop" class="blackbelt"> </div>
@@ -284,6 +304,11 @@ if (isset($_POST['cskbhcsjlkjasdknhkvlknklj'])) {
 <div id="whiteBelt" class="blackbelt"> </div>
 
   </div>
+  ';
+}
+
+?>
+
 <div id="GymInput" class="center">
     <input type="text" style="text-align:center;" placeholder="Main Gym">
 </input>

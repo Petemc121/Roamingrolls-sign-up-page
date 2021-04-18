@@ -88,6 +88,29 @@ if (!empty($_FILES['profile_photo']['name'])) {
   }
 }
 
+
+if (isset($_POST['cskbhcsjlkjasdknhkvlknklj'])) {
+  $post_id = get_the_ID();
+
+  if(wp_verify_nonce($_POST['cskbhcsjlkjasdknhkvlknklj'], 'details_form' )) {
+
+         if($_POST['profileNameIn'] != "") {
+
+          $profileName =  sanitize_text_field($_POST['profileNameIn']);
+
+          update_post_meta($post_id, 'profile_name', $profileName);
+         }
+
+            if($_POST['profileBelt'] != "") {
+
+              $profileBelt =  sanitize_text_field($_POST['profileBelt']);
+
+               update_post_meta($post_id, 'profile_belt', $profileBelt);
+            }
+
+
+  }
+}
 ?>
 
 <body>
@@ -154,23 +177,113 @@ if (!empty($_FILES['profile_photo']['name'])) {
 
 </div>
 
+ <button id ="editDetailsButton"><i class="fas fa-file-upload"></i>
+    </button>
+
+    <form method="post">
+      <?php wp_nonce_field( 'details_form', 'cskbhcsjlkjasdknhkvlknklj' ); ?>
 <div id="nameInput" class="center">
-    <input type="text" style="text-align:center;" placeholder="Name">
-</input>
+    <input type="text" id="profileNameIn" name="profileNameIn" style="text-align:center; display:none;" placeholder="Name">
+
 </div>
 
+<div id="nameOutput" class="center">
+ <div id="profileNameOut"> 
+   <h1>
+    <?php
+
+     $post_id = get_the_ID();
+
+      $profileName = get_post_meta($post_id, 'profile_name', true );
+
+        if ($profileName == "") {
+       $userID = $current_user->user_login;
+       echo $userID;
+         
+    } else {
+      echo $profileName;
+    }
+    
+    ?>
+    </h1>
+  </div>
+
+</div>
+
+
 <div id="beltInput" class="center">
-<label id="pBeltsLabel" for="cars">Belt Level:</label>
-<select id="Belts" name="cars">
-  <option value="volvo"><div id="WBCon"><div id="stCon"></div>White</div></option>
-  <option value="saab">Blue</option>
-  <option value="fiat">Brown</option>
-  <option value="audi">Black</option>
-  <option value="audi">Coral</option>
-  <option value="audi">Red</option>
+<label id="pBeltsLabel" for="profileBelt">Belt Level:</label>
+<select id="Belts" name="profileBelt">
+  <option value="notSelected">Not Selected</option>
+  <option value="white">White</option>
+  <option value="blue">Blue</option>
+  <option value="purple">Purple</option>
+  <option value="brown">Brown</option>
+  <option value="black">Black</option>
+  <option value="coral">Coral</option>
+  <option value="red">Red</option>
 </select>
 </div>
 
+<div id="whitebeltIconCon" class="beltIcons center">
+<div id="notchCon" >
+<div id="whiteBeltNotchBot" class="whitebelt"> </div>
+<div id="whiteBeltNotchTop" class="whitebelt"> </div>
+<!-- <div id="whiteBeltNotchVert"> </div> -->
+  </div>
+<div id="whiteBeltLeft" class="whitebelt"> </div>
+<div id="whiteBeltRight" class="whitebelt"> <div class="beltBand"></div> </div>
+<div id="whiteBelt" class="whitebelt"> </div>
+
+  </div>
+
+  <div id="bluebeltIconCon" class="beltIcons center">
+<div id="notchCon" >
+<div id="whiteBeltNotchBot" class="bluebelt"> </div>
+<div id="whiteBeltNotchTop" class="bluebelt"> </div>
+<!-- <div id="whiteBeltNotchVert"> </div> -->
+  </div>
+<div id="whiteBeltLeft" class="bluebelt"> </div>
+<div id="whiteBeltRight" class="bluebelt"> <div class="beltBand"></div> </div>
+<div id="whiteBelt" class="bluebelt"> </div>
+
+  </div>
+
+  <div id="purplebeltIconCon" class="beltIcons center">
+<div id="notchCon" >
+<div id="whiteBeltNotchBot" class="purplebelt"> </div>
+<div id="whiteBeltNotchTop" class="purplebelt"> </div>
+<!-- <div id="whiteBeltNotchVert"> </div> -->
+  </div>
+<div id="whiteBeltLeft" class="purplebelt"> </div>
+<div id="whiteBeltRight" class="purplebelt"> <div class="beltBand"></div> </div>
+<div id="whiteBelt" class="purplebelt"> </div>
+
+  </div>
+
+  <div id="brownbeltIconCon" class="beltIcons center">
+<div id="notchCon" >
+<div id="whiteBeltNotchBot" class="brownbelt"> </div>
+<div id="whiteBeltNotchTop" class="brownbelt"> </div>
+<!-- <div id="whiteBeltNotchVert"> </div> -->
+  </div>
+<div id="whiteBeltLeft" class="brownbelt"> </div>
+<div id="whiteBeltRight" class="brownbelt"> <div class="beltBand"></div> </div>
+<div id="whiteBelt" class="brownbelt"> </div>
+
+  </div>
+
+  <div id="blackbeltIconCon" class="beltIcons center">
+<div id="notchCon" >
+<div id="whiteBeltNotchBot" class="blackbelt"> </div>
+<div id="whiteBeltNotchTop" class="blackbelt"> </div>
+<!-- <div id="whiteBeltNotchVert"> </div> -->
+  </div>
+<div id="whiteBeltLeft" class="blackbelt"> </div>
+<div id="whiteBeltRight" class="blackbelt"> <div id= "blackBand" class="beltBand"></div> </div>
+<div id="whiteBelt" class="blackbelt"> </div>
+
+  </div>
 <div id="GymInput" class="center">
     <input type="text" style="text-align:center;" placeholder="Main Gym">
 </input>
@@ -185,8 +298,9 @@ if (!empty($_FILES['profile_photo']['name'])) {
   <option value="audi">Head instructor</option>
 </select>
 </div>
-
-
+   <button id="saveProfileDetails" class="plusPic" type="submit">Save</button>
+  </form>
+      <button id="cancelProfileDetails" class="plusPic" >Cancel</button>
 
 
 <script>
@@ -197,6 +311,27 @@ if (!empty($_FILES['profile_photo']['name'])) {
     // slideContain.style.display = "block";
     // displayImg.style.display ="none";
     // }
+
+    editDetailsButton = document.getElementById('editDetailsButton');
+    profileNameIn =  document.getElementById('profileNameIn'); 
+    profileNameOut =  document.getElementById('profileNameOut'); 
+    saveDetails = document.getElementById('saveProfileDetails'); 
+    cancelDetails = document.getElementById('cancelProfileDetails'); 
+    beltSelect = document.getElementById('Belts'); 
+    beltLabel = document.getElementById('pBeltsLabel'); 
+
+
+    editDetailsButton.addEventListener('click', function() {
+        profileNameIn.style.display = "block";
+        profileNameOut.style.display = "none";
+        saveDetails.style.display = "block";
+        cancelDetails.style.display = "block";
+        beltSelect.style.display = "block";
+        beltLabel.style.display = "block";
+           cancelDetails.addEventListener("click", function () {
+          window.location.reload();
+});
+    });
 
     
   function fasterPreview( uploader, image, cancelID, saveID, upID ) {

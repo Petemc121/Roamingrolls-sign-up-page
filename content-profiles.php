@@ -74,15 +74,15 @@ if (!empty($_FILES['cover_photo']['name'])) {
   }
 }
 
-  if (isset($_POST['sdfhjrcjkllcrknjcrk'])) {
+  if (isset($_POST['svnlvnknvjklkjdbfjkd'])) {
   
-  if(wp_verify_nonce($_POST['sdfhjrcjkllcrknjcrk'], 'cover_form' )) {
+  if(wp_verify_nonce($_POST['svnlvnknvjklkjdbfjkd'], 'profile_img_form' )) {
   
-if (!empty($_FILES['cover_photo']['name'])) {
+if (!empty($_FILES['profile_photo']['name'])) {
 
-  $coverImg = $_FILES['cover_photo'];
+  $profileImg = $_FILES['profile_photo'];
 
-  uploadInstructFile($coverImg, 'cover_photo', 'cover_photo');
+  uploadInstructFile($profileImg, 'profile_photo', 'profile_photo');
 
 }
   }
@@ -122,19 +122,33 @@ if (!empty($_FILES['cover_photo']['name'])) {
 
 
 <div id="profile-pic">
-  <form id="coverForm" enctype="multipart/form-data" method="post">
+  <form id="profileForm" enctype="multipart/form-data" method="post">
 <?php wp_nonce_field( 'profile_img_form', 'svnlvnknvjklkjdbfjkd' ); ?>
 
-    <img id = "ProfileImg" src="https://www.roamingrolls.com/wp-content/uploads/2020/11/avatar.gif">
+    <img id = "ProfileImg" src="
+     <?php 
+    $post_id = get_the_ID();
+
+      $profile = get_post_meta($post_id, 'profile_photo', true );
+
+    if ($profile == "") {
+
+          echo "https://www.roamingrolls.com/wp-content/uploads/2020/11/avatar.gif";
+    } else {
+    $profileURL = wp_get_attachment_url($profile);
+      echo $profileURL;
+    }
+
+    ?>">
 
   
 
-    <input id="imageUpload1" onchange="fasterPreview(this, '#ProfileImg','cancelProfilePic','saveProfilePic','profilePicUp')" type="file" 
-    name="profile_photo" placeholder="Photo" required="" capture>
+    <input id="profilePicIn" onchange="fasterPreview(this, '#ProfileImg','cancelProfilePic','saveProfilePic','profilePicUp')" type="file" 
+    name="profile_photo" placeholder="Photo" required="" style="display:none" capture>
    <button id="saveProfilePic" class="plusPic" type="submit">Save</button>
 
   </form>
-      <button onclick="$('#imageUpload1').click()" id ="profilePicup"><i class="fas fa-file-upload"></i>
+      <button onclick="$('#profilePicIn').click()" id ="profilePicUp"><i class="fas fa-file-upload"></i>
     </button>
     <button id="cancelProfilePic" class="plusPic" >Cancel</button>
 
@@ -200,7 +214,18 @@ if (!empty($_FILES['cover_photo']['name'])) {
         save.style.display = "block";
         cancel.style.display = "block";
         upload.style.display = "none";
+
+          cancel.addEventListener("click", function () {
+          window.location.reload();
+});
   }
+
+//      var cancelPP = document.getElementById('cancelProfilePic');
+
+//  cancelPP.addEventListener("click", function () {
+//           window.location.reload();
+// });
+
 
 
 

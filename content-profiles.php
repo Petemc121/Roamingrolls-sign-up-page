@@ -309,18 +309,18 @@ if ($belt == 'black') {
 
 ?>
 
-<div id="GymInput" class="center">
+<div id="gymInput" class="center">
     <input type="text" style="text-align:center;" placeholder="Main Gym">
 </input>
 </div>
 
-<div id="beltInput" class="center">
-<label id="pBeltsLabel" for="cars">Position:</label>
-<select id="Belts" name="cars">
-  <option value="volvo"><div id="WBCon"><div id="stCon"></div>Student</div></option>
-  <option value="saab">No-gi instructor</option>
-  <option value="fiat">Gi instructor</option>
-  <option value="audi">Head instructor</option>
+<div id="position" class="center">
+<label id="positionLabel" for="positions">Position:</label>
+<select id="positions" name="positions">
+  <option value="student">Student</option>
+  <option value="no-giInstructor">No-gi instructor</option>
+  <option value="giInstructor">Gi instructor</option>
+  <option value="HeadInstructor">Head instructor</option>
 </select>
 </div>
    <button id="saveProfileDetails" class="plusPic" type="submit">Save</button>

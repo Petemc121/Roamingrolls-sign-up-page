@@ -289,6 +289,7 @@ if ($belt == 'brown')
 <div id="whiteBeltLeft" class="brownbelt"> </div>
 <div id="whiteBeltRight" class="brownbelt"> <div id="brownBand" class="beltBand"></div> </div>
 <div id="whiteBelt" class="brownbelt"> </div>
+</div>
 ';
 } else 
 if ($belt == 'black') {
@@ -309,8 +310,8 @@ if ($belt == 'black') {
 
 ?>
 
-<div id="gymInput" class="center">
-    <input type="text" style="text-align:center;" placeholder="Main Gym">
+<div  class="center">
+    <input id="gymInput" name ="gymInput" type="text" style="text-align:center;" placeholder="Main Gym">
 </input>
 </div>
 
@@ -320,7 +321,7 @@ if ($belt == 'black') {
   <option value="student">Student</option>
   <option value="no-giInstructor">No-gi instructor</option>
   <option value="giInstructor">Gi instructor</option>
-  <option value="HeadInstructor">Head instructor</option>
+  <option value="headInstructor">Head instructor</option>
 </select>
 </div>
    <button id="saveProfileDetails" class="plusPic" type="submit">Save</button>
@@ -344,6 +345,9 @@ if ($belt == 'black') {
     cancelDetails = document.getElementById('cancelProfileDetails'); 
     beltSelect = document.getElementById('Belts'); 
     beltLabel = document.getElementById('pBeltsLabel'); 
+    positions = document.getElementById('positions'); 
+    posititionLabel = document.getElementById('positionLabel'); 
+    gymInput = document.getElementById('gymInput'); 
 
 
     editDetailsButton.addEventListener('click', function() {
@@ -353,6 +357,9 @@ if ($belt == 'black') {
         cancelDetails.style.display = "block";
         beltSelect.style.display = "block";
         beltLabel.style.display = "block";
+        positions.style.display = "block";
+        posititionLabel.style.display = "block";
+        gymInput.style.display = "block";
            cancelDetails.addEventListener("click", function () {
           window.location.reload();
 });

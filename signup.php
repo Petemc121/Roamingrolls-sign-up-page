@@ -112,7 +112,11 @@ function my_theme_create_new_user(){
                     
     );
 
-    // $pid = wp_insert_post($new_post);
+    wp_mail($email, 'Welcome to Roaming Rolls!', 'Hi '.$username.', You can now add as many gyms as you like to our database.');
+
+    $pid = wp_insert_post($new_post);
+
+    wp_publish_post($pid);
 
         echo '<style type="text/css">
               #success {
@@ -125,6 +129,8 @@ function my_theme_create_new_user(){
                   display: block !important;
               }
               </style>';
+
+              wp_redirect( 'https://www.roamingrolls.com/Profiles/'.$username );
             }  else {
               echo "<script>alert('Your session timed out')</script>";
             }       

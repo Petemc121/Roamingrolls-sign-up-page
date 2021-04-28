@@ -56,7 +56,7 @@ function my_theme_create_new_user(){
       </style>';
     }else
 
-    if(email_exists($email) == true ) {
+    if(email_exists($email) == true) {
       echo '<style type="text/css">
           #alertemailhave{
               display: block !important;
@@ -109,10 +109,13 @@ function my_theme_create_new_user(){
               'post_author' =>$user_id,
               'post_type' => 'Profiles',
               'post_name' => $username,
+
+              
                     
     );
+    // wp_mail($email, 'Welcome to Roaming Rolls!', 'Hi '.$username.', You can now add as many gyms as you like to our database.');
 
-    wp_mail($email, 'Welcome to Roaming Rolls!', 'Hi '.$username.', You can now add as many gyms as you like to our database.');
+
 
     $pid = wp_insert_post($new_post);
 
@@ -124,13 +127,11 @@ function my_theme_create_new_user(){
               }
               </style>';
 
-               echo '<style type="text/css">
-              #fullArrow {
-                  display: block !important;
-              }
-              </style>';
+            
 
-              wp_redirect( 'https://www.roamingrolls.com/Profiles/'.$username );
+              
+
+              // wp_redirect( 'https://www.roamingrolls.com/Profiles/'.$username );
             }  else {
               echo "<script>alert('Your session timed out')</script>";
             }       
@@ -164,8 +165,12 @@ if (array_key_exists('email', $_POST) OR array_key_exists('password', $_POST)) {
     </style>';
 
   } else {
+$email = sanitize_text_field($_POST['email']);
+    if (filter_var($email, FILTER_VALIDATE_EMAIL))
+    {
 
   my_theme_create_new_user();
+    }
   }
 }
 
@@ -342,32 +347,10 @@ display:none;
 
 }
 
-#arrowTop {
-  transition: all 0.5s;
-  width: 0; 
-  height: 0; 
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 15px solid #7ace86;
-  position:relative;
-  
-}
-#arrowBottom {
-  transition: all 0.5s;
-  width:12px;
-  height:20px;
-  background-color:#7ace86;
-  position:relative;
-  left:9px;
-}
 
-#fullArrow {
-  position:absolute;
-  top:85px;
-  right:70px;
-  transition:all 0.5s;
-  display:none;
-}
+
+
+
 
 #alertemailhave {
 
@@ -458,7 +441,7 @@ font-size:20px;
           Email field is empty. 
         </div>
         <div id="alertemailx" class="alert alert-danger" role="alert">
-          Email doesn't exist.
+          Email format isn't valid.
         </div>
         <div id="alertpasswordx" class="alert alert-danger" role="alert">
           Your password must be at least 8 characters long.
@@ -469,7 +452,11 @@ font-size:20px;
           That email has already been taken. 
         </div>
         <div id="success" class="alert alert-success" role="alert">
-          Congratulations! You've successfully registered with us! You can now log in.       </div>
+          Congratulations! You've successfully registered with us! We've sent you an email. Click the link in the email to activate your account.       </div>
+
+</div>
+
+
 
 </div>
 
@@ -532,7 +519,6 @@ font-size:20px;
 
 <script>
 
-  const arrow = document.getElementById('fullArrow');
 
 
 function error() {
@@ -553,14 +539,7 @@ sub.style.backgroundImage = "linear-gradient(#0A0A23, #071A4B)";
 
 };
 
-function arrowInit() {
 
-
-   setInterval(function() {arrow.style.top = "85px"}, 300);
-   setInterval(function() {arrow.style.top = "80px"}, 600);
-}
-
-arrowInit();
 
 
 
